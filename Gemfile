@@ -4,12 +4,10 @@ gem "ocean-rails", "~> 2.0"
 
 gem "rails", "~> 4.0"
 
-#gem "pg"
-#gem "foreigner"
-
 gem "jbuilder"
 
 gem "aws-sdk-core" #, "~> 2.0"
+
 
 group :test, :development do
   #gem "sqlite3"
