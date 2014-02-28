@@ -68,7 +68,6 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    memory_test_fix (0.2.2)
     mime-types (1.25.1)
     mini_portile (0.5.2)
     minitest (4.7.5)
@@ -160,7 +159,6 @@ DEPENDENCIES
   aws-sdk-core
   factory_girl_rails (~> 4.0)
   jbuilder
-  memory_test_fix
   ocean-rails (~> 2.0)
   protected_attributes
   rails (~> 4.0)
