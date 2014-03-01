@@ -12,19 +12,10 @@
 ##########################################################################################
 
 
-fake_dynamo: &local
-  use_ssl:            false
-  dynamo_db_endpoint: localhost
-  dynamo_db_port:     4567
-  access_key_id:      xxx
-  secret_access_key:  xxx
-  user_agent_prefix:  Ocean
-
 amazon: &amazon
-  access_key_id:      YOURACCESSKEYHERE
-  secret_access_key:  YOURSECRETKEYHERE
-  region:             eu-west-1
-  user_agent_prefix:  Ocean
+  :access_key_id:      YOURACCESSKEYHERE
+  :secret_access_key:  YOURSECRETKEYHERE
+  :region:             eu-west-1
 
 
 #
@@ -35,10 +26,10 @@ amazon: &amazon
 #
 
 development:
-  <<: *local
+  <<: *amazon
 
 test:
-  <<: *local
+  <<: *amazon
 
 production:
-  <<: *local
+  <<: *amazon
