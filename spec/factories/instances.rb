@@ -14,6 +14,12 @@
 #  updated_at   :datetime
 #  lock_version :integer          default(0), not null
 #
+# Indexes
+#
+#  index_instances_on_chef_env_and_name     (chef_env,name)
+#  index_instances_on_chef_env_and_service  (chef_env,service)
+#  index_instances_on_instance_id           (instance_id)
+#
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 

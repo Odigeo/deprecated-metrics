@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: instances
+#
+#  id           :integer          not null, primary key
+#  instance_id  :string(255)
+#  name         :string(255)
+#  description  :string(255)
+#  chef_env     :string(255)
+#  service      :string(255)
+#  subservice   :string(255)
+#  contents     :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  lock_version :integer          default(0), not null
+#
+# Indexes
+#
+#  index_instances_on_chef_env_and_name     (chef_env,name)
+#  index_instances_on_chef_env_and_service  (chef_env,service)
+#  index_instances_on_instance_id           (instance_id)
+#
+
 require 'spec_helper'
 
 describe Instance do
@@ -35,9 +58,9 @@ describe Instance do
     describe ".collection" do
     
       before :each do
-        create :instance, instance_id: 'i-12345678', name: 'foo', description: "The Foo object"
-        create :instance, instance_id: 'i-23456789', name: 'bar', description: "The Bar object"
-        create :instance, instance_id: 'i-34567890', name: 'baz', description: "The Baz object"
+        create :instance, instance_id: 'i-12345678', name: 'foo', chef_env: "master", service: "quux"
+        create :instance, instance_id: 'i-23456789', name: 'bar', chef_env: "prod",   service: "quux"
+        create :instance, instance_id: 'i-34567890', name: 'baz', chef_env: "master", service: "zuul"
       end
       
     
@@ -59,6 +82,18 @@ describe Instance do
         Instance.collection(name: 'baz').length.should == 1
       end
       
+      it "should allow matches on chef_env" do
+        Instance.collection(chef_env: 'NOWAI').length.should == 0
+        Instance.collection(chef_env: 'master').length.should == 2
+        Instance.collection(chef_env: 'prod').length.should == 1
+      end
+      
+      it "should allow matches on service" do
+        Instance.collection(service: 'NOWAI').length.should == 0
+        Instance.collection(service: 'quux').length.should == 2
+        Instance.collection(service: 'zuul').length.should == 1
+      end
+            
       it "should NOT allow searches on description" do
         Instance.collection(search: 'a').length.should == 0
         Instance.collection(search: 'object').length.should == 0

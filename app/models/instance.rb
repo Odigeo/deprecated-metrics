@@ -14,10 +14,16 @@
 #  updated_at   :datetime
 #  lock_version :integer          default(0), not null
 #
+# Indexes
+#
+#  index_instances_on_chef_env_and_name     (chef_env,name)
+#  index_instances_on_chef_env_and_service  (chef_env,service)
+#  index_instances_on_instance_id           (instance_id)
+#
 
 class Instance < ActiveRecord::Base
 
-  ocean_resource_model index: [:instance_id, :name, :chef_env, :service, :subservice], 
+  ocean_resource_model index: [:instance_id, :name, :chef_env, :service], 
                        search: false
 
 
