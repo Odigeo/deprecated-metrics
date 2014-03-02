@@ -73,12 +73,6 @@ describe Instance do
   end
 
 
-  describe "relations" do
-
-  end
-
-
-
   describe "search" do
   
     describe ".collection" do
@@ -118,6 +112,10 @@ describe Instance do
         Instance.collection(service: 'NOWAI').length.should == 0
         Instance.collection(service: 'quux').length.should == 2
         Instance.collection(service: 'zuul').length.should == 1
+      end
+            
+      it "should allow combined matches" do
+        Instance.collection(chef_env: "prod", service: "quux").length.should == 1
       end
             
       it "should NOT allow searches on description" do
