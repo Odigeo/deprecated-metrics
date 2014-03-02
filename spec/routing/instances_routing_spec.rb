@@ -8,7 +8,7 @@ describe InstancesController do
     end
 
     it "routes to #show" do
-      get("/v1/instances/1").should route_to("instances#show", id: "1")
+      get("/v1/instances/i-12345678").should route_to("instances#show", id: "i-12345678")
     end
 
     it "should not route to #create" do

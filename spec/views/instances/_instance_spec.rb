@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: instances
+#
+#  id           :integer          not null, primary key
+#  instance_id  :string(255)
+#  name         :string(255)
+#  description  :string(255)
+#  chef_env     :string(255)
+#  service      :string(255)
+#  subservice   :string(255)
+#  contents     :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  lock_version :integer          default(0), not null
+#
+
 require 'spec_helper'
 
 describe "instances/_instance" do
@@ -42,6 +59,26 @@ describe "instances/_instance" do
 
   it "should have a lock_version field" do
     @u['lock_version'].should be_an Integer
+  end
+      
+  it "should have a instance_id field" do
+    @u['instance_id'].should be_a String
+  end
+      
+  it "should have a chef_env field" do
+    @u['chef_env'].should be_a String
+  end
+      
+  it "should have a service field" do
+    @u['service'].should be_a String
+  end
+      
+  it "should have a subservice field" do
+    @u['subservice'].should be_a String
+  end
+      
+  it "should have a contents field" do
+    @u['contents'].should_not == nil
   end
       
 end

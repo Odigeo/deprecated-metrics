@@ -17,7 +17,8 @@
 
 class Instance < ActiveRecord::Base
 
-  ocean_resource_model index: [:name], search: :description
+  ocean_resource_model index: [:instance_id, :name, :chef_env, :service, :subservice], 
+                       search: false
 
 
   # Relations

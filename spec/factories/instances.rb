@@ -19,12 +19,12 @@
 
 FactoryGirl.define do
   factory :instance do
-    instance_id "MyString"
+    instance_id "i-#{Random.rand(99999999)}"
     name "MyString"
     description "MyString"
-    chef_env "MyString"
-    service "MyString"
-    subservice "MyString"
-    contents "MyString"
+    chef_env "master"
+    service "auth"
+    subservice "something"
+    contents "{}"
   end
 end

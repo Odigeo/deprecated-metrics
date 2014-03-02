@@ -35,9 +35,9 @@ describe Instance do
     describe ".collection" do
     
       before :each do
-        create :instance, name: 'foo', description: "The Foo object"
-        create :instance, name: 'bar', description: "The Bar object"
-        create :instance, name: 'baz', description: "The Baz object"
+        create :instance, instance_id: 'i-12345678', name: 'foo', description: "The Foo object"
+        create :instance, instance_id: 'i-23456789', name: 'bar', description: "The Bar object"
+        create :instance, instance_id: 'i-34567890', name: 'baz', description: "The Baz object"
       end
       
     
@@ -47,19 +47,25 @@ describe Instance do
         ix[0].should be_a Instance
       end
     
+      it "should allow matches on instance_id" do
+        Instance.collection(instance_id: 'NOWAI').length.should == 0
+        Instance.collection(instance_id: 'i-23456789').length.should == 1
+        Instance.collection(instance_id: 'i-34567890').length.should == 1
+      end
+      
       it "should allow matches on name" do
         Instance.collection(name: 'NOWAI').length.should == 0
         Instance.collection(name: 'bar').length.should == 1
         Instance.collection(name: 'baz').length.should == 1
       end
       
-      it "should allow searches on description" do
-        Instance.collection(search: 'a').length.should == 2
-        Instance.collection(search: 'object').length.should == 3
+      it "should NOT allow searches on description" do
+        Instance.collection(search: 'a').length.should == 0
+        Instance.collection(search: 'object').length.should == 0
       end
       
       it "key/value pairs not in the index_only array should quietly be ignored" do
-        Instance.collection(name: 'bar', aardvark: 12).length.should == 1
+        Instance.collection(instance_id: 'i-12345678', aardvark: 12).length.should == 1
       end
         
     end
