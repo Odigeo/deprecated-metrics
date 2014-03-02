@@ -11,6 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140302174126) do
+
+  create_table "instances", force: true do |t|
+    t.string   "instance_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "chef_env"
+    t.string   "service"
+    t.string   "subservice"
+    t.string   "contents"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "lock_version", default: 0, null: false
+  end
 
 end

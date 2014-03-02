@@ -1,7 +1,12 @@
 Metrics::Application.routes.draw do
 
+  resources :rspecs
+
+  resources :instances
+
   scope "v1" do
-  	# Put resource routes here
+    
+    resources :instances, only: [:index, :show]
 
   end
 
