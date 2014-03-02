@@ -20,7 +20,7 @@ require 'spec_helper'
 describe "instances/_instance" do
   
   before :each do                     # Must be :each (:all causes all tests to fail)
-    render partial: "instances/instance", locals: {instance: create(:instance)}
+    render partial: "instances/instance", locals: {instance: create(:instance, contents: {})}
     @json = JSON.parse(rendered)
     @u = @json['instance']
     @links = @u['_links'] rescue {}

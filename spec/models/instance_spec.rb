@@ -44,6 +44,32 @@ describe Instance do
       create(:instance).updated_at.should be_a Time
     end
   
+    it "should have a chef environment" do
+      create(:instance).chef_env.should be_a String
+    end
+  
+    it "should have a service" do
+      create(:instance).service.should be_a String
+    end
+  
+    it "should have a subservice" do
+      create(:instance).subservice.should be_a String
+    end
+  
+    it "should have contents hash" do
+      create(:instance, contents: {}).contents.should be_a Hash
+    end
+
+    it "should be able to serialize and persist the contents hash" do
+      i = create(:instance, contents: {foo: 2, 'bar' => [1,2,3]})
+      i = Instance.find(i)
+      i.contents.should == {"foo"=>2, "bar"=>[1, 2, 3]}
+      i.contents['bar'] = :quux
+      i.save!
+      i = Instance.find(i)
+      i.contents.should == {"foo"=>2, "bar"=>"quux"}
+    end
+  
   end
 
 

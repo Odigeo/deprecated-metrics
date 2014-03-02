@@ -31,6 +31,6 @@ FactoryGirl.define do
     chef_env "master"
     service "auth"
     subservice "something"
-    contents "{}"
+    contents nil
   end
 end

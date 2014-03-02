@@ -26,6 +26,7 @@ class Instance < ActiveRecord::Base
   ocean_resource_model index: [:instance_id, :name, :chef_env, :service], 
                        search: false
 
+  serialize :contents, JSON
 
   # Relations
 
