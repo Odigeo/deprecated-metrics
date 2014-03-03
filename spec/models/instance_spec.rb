@@ -9,7 +9,7 @@
 #  chef_env     :string(255)
 #  service      :string(255)
 #  subservice   :string(255)
-#  contents     :string(255)
+#  contents     :text
 #  created_at   :datetime
 #  updated_at   :datetime
 #  lock_version :integer          default(0), not null
@@ -18,7 +18,7 @@
 #
 #  index_instances_on_chef_env_and_name     (chef_env,name)
 #  index_instances_on_chef_env_and_service  (chef_env,service)
-#  index_instances_on_instance_id           (instance_id)
+#  index_instances_on_instance_id           (instance_id) UNIQUE
 #
 
 require 'spec_helper'

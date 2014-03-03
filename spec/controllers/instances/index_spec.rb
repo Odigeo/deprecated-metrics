@@ -8,9 +8,9 @@ describe InstancesController do
     
     before :each do
       permit_with 200
-      create :instance
-      create :instance
-      create :instance
+      create :instance, instance_id: "i-1"
+      create :instance, instance_id: "i-2"
+      create :instance, instance_id: "i-3"
       request.headers['HTTP_ACCEPT'] = "application/json"
       request.headers['X-API-Token'] = "boy-is-this-fake"
     end
