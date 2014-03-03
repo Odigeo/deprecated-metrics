@@ -57,7 +57,7 @@ class Instance < ActiveRecord::Base
               contents: contents
     else
       if contents.to_json != i.contents.to_json
-        i.update_attributes instance_id: instance_id, name: name, description: "",
+        i.update_attributes name: name, description: "",
               chef_env: chef_env, service: service, subservice: subservice,
               contents: contents
       end 
