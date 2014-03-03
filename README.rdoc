@@ -26,7 +26,3 @@ Things you may want to cover:
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
-
-
-#i = ec2.describe_instances(filters: [{name: "tag:ChefEnv", values: ["master"]}]).
-#  reservations.first.instances.to_json    false

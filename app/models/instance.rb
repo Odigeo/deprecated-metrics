@@ -28,13 +28,40 @@ class Instance < ActiveRecord::Base
 
   serialize :contents, JSON
 
-  # Relations
+  attr_accessible :instance_id, :name, :description, :chef_env, :service, :subservice, :contents
 
 
-  # Attributes
+  def self.refresh_all
+    response = $ec2.describe_instances  # (filters: [{name: "tag:ChefEnv", values: [CHEF_ENV]}])
+    response.reservations.each do |reservation|
+      reservation.instances.each do |instance|
+        refresh_from_struct instance
+      end
+    end
+    true
+  end
 
 
-  # Validations
-  
-  
+  def self.refresh_from_struct(s)
+    contents = JSON.parse(s.to_json)
+    instance_id = contents['instance_id']
+    tags = contents['tags'].inject({}) { |memo, h| memo[h['key']] = h['value']; memo }
+    name = tags['Name']
+    chef_env = tags['ChefEnv']
+    service = tags['Service']
+    subservice = tags['Subservice']
+    i = find_by_instance_id(instance_id)
+    if !i
+      create! instance_id: instance_id, name: name, description: "",
+              chef_env: chef_env, service: service, subservice: subservice,
+              contents: contents
+    else
+      if contents.to_json != i.contents.to_json
+        i.update_attributes instance_id: instance_id, name: name, description: "",
+              chef_env: chef_env, service: service, subservice: subservice,
+              contents: contents
+      end 
+    end
+  end
+
 end

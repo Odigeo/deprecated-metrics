@@ -130,4 +130,46 @@ describe Instance do
     end
   end
 
+
+  describe "refresh_all" do
+
+    it "should be available as a class method" do
+      Instance.should respond_to(:refresh_all)
+    end
+
+    it "should call refresh_from_struct repeatedly" do
+      Instance.should_receive(:refresh_from_struct).at_least(1).times
+      Instance.refresh_all
+    end
+  end
+
+
+  describe "refresh_from_struct" do
+
+    it "should try to receive the instance from its id" do
+      Instance.should_receive(:find_by_instance_id)
+      Instance.refresh_from_struct({'tags' => {}})
+    end
+
+    it "should create an instance if not found" do
+      Instance.should_receive(:create!)
+      Instance.refresh_from_struct({'instance_id' => 'UNKNOWN', 'tags' => {}})
+    end
+
+    it "should update an instance if it already exists and is different" do
+      create(:instance, instance_id: "i-12345678", contents: {})
+      Instance.should_not_receive(:create!)
+      Instance.any_instance.should_receive(:update_attributes)
+      Instance.refresh_from_struct({'instance_id' => 'i-12345678', 'tags' => {}, 'contents' => 'another'})
+    end
+
+    it "should not update an instance if it already exists but is unchanged" do
+      create(:instance, instance_id: "i-99999999", contents: {'instance_id' => 'i-99999999', 'tags' => {}, 'contents' => {'tags' => {}}})
+      Instance.should_not_receive(:create!)
+      Instance.any_instance.should_not_receive(:update_attributes)
+      Instance.refresh_from_struct({'instance_id' => 'i-99999999', 'tags' => {}, 'contents' => {'tags' => {}}})
+    end
+
+  end
+
 end
