@@ -40,6 +40,10 @@ describe "instances/_instance" do
     @links.should be_hyperlinked('self', /instances/)
   end
 
+  it "should use an id of the form i-99999999 in the self hyperlink" do
+    @links['self']['href'].split('/')[-1].should match /i-[0-9]+/
+  end
+
 
   it "should have a name" do
     @u['name'].should be_a String

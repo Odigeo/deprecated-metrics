@@ -1,5 +1,5 @@
 json.instance do |json|
-	json._links       hyperlinks(self:    instance_url(instance))
+	json._links       hyperlinks(self:    instance_url(id: instance.instance_id))
 	json.(instance,   :instance_id, 
                     :name, 
                     :description,
