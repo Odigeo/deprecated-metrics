@@ -3,10 +3,13 @@ class InstancesController < ApplicationController
   ocean_resource_controller #required_attributes: [:lock_version, :name, :description]
 
   respond_to :json
-  
-  before_action :find_instance, only: :show
-    
-  
+
+  skip_before_filter :require_x_api_token, only: :refresh
+  skip_before_filter :authorize_action, only: :refresh
+
+  before_filter :find_instance, only: :show
+
+
   # GET /instances
   def index
     expires_in 0, 's-maxage' => 3.hours
@@ -22,6 +25,13 @@ class InstancesController < ApplicationController
     if stale?(@instance)
       api_render @instance
     end
+  end
+
+
+  # PUT /instances/refresh
+  def refresh
+    Instance.refresh_all
+    render text: ""
   end
   
   
