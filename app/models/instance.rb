@@ -60,7 +60,7 @@ class Instance < ActiveRecord::Base
     subservice = tags['Subservice']
     state = contents['state']['name']
     instance_type = contents['instance_type']
-    launch_time = contents['launch_time'].utc if contents['launch_time']
+    launch_time = contents['launch_time'] if contents['launch_time']
     availability_zone = contents['placement']['availability_zone']
     subnet_id = contents['subnet_id']
     private_ip_address = contents['private_ip_address']
