@@ -72,13 +72,13 @@ class Instance < ActiveRecord::Base
               launch_time: launch_time, availability_zone: availability_zone,
               subnet_id: subnet_id, private_ip_address: private_ip_address
     else
-      #if true # contents.to_json != i.contents.to_json
+      if contents.to_json != i.contents.to_json
         i.update_attributes name: name,
               chef_env: chef_env, service: service, subservice: subservice,
               contents: contents, state: state, instance_type: instance_type,
               launch_time: launch_time, availability_zone: availability_zone,
               subnet_id: subnet_id, private_ip_address: private_ip_address
-      #end 
+      end 
     end
   end
 
