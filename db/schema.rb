@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303001919) do
+ActiveRecord::Schema.define(version: 20140306202654) do
 
   create_table "instances", force: true do |t|
     t.string   "instance_id"
@@ -23,7 +23,13 @@ ActiveRecord::Schema.define(version: 20140303001919) do
     t.text     "contents"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "lock_version", default: 0, null: false
+    t.integer  "lock_version",       default: 0, null: false
+    t.string   "state"
+    t.string   "instance_type"
+    t.datetime "launch_time"
+    t.string   "availability_zone"
+    t.string   "subnet_id"
+    t.string   "private_ip_address"
   end
 
   add_index "instances", ["chef_env", "name"], name: "index_instances_on_chef_env_and_name"

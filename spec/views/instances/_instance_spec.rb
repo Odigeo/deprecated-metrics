@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: instances
-#
-#  id           :integer          not null, primary key
-#  instance_id  :string(255)
-#  name         :string(255)
-#  description  :string(255)
-#  chef_env     :string(255)
-#  service      :string(255)
-#  subservice   :string(255)
-#  contents     :string(255)
-#  created_at   :datetime
-#  updated_at   :datetime
-#  lock_version :integer          default(0), not null
-#
-
 require 'spec_helper'
 
 describe "instances/_instance" do
@@ -83,6 +66,30 @@ describe "instances/_instance" do
       
   it "should have a contents field" do
     @u['contents'].should_not == nil
+  end
+      
+  it "should have a state field" do
+    @u['state'].should be_a String
+  end
+      
+  it "should have an instance type field" do
+    @u['instance_type'].should be_a String
+  end
+      
+  it "should have an launch time field" do
+    @u['launch_time'].should be_a String
+  end
+      
+  it "should have an availability zone field" do
+    @u['availability_zone'].should be_a String
+  end
+      
+  it "should have subnet_id field" do
+    @u['subnet_id'].should be_a String
+  end
+      
+  it "should have private_ip_address field" do
+    @u['private_ip_address'].should be_a String
   end
       
 end

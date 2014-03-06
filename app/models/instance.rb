@@ -2,17 +2,23 @@
 #
 # Table name: instances
 #
-#  id           :integer          not null, primary key
-#  instance_id  :string(255)
-#  name         :string(255)
-#  description  :string(255)
-#  chef_env     :string(255)
-#  service      :string(255)
-#  subservice   :string(255)
-#  contents     :text
-#  created_at   :datetime
-#  updated_at   :datetime
-#  lock_version :integer          default(0), not null
+#  id                 :integer          not null, primary key
+#  instance_id        :string(255)
+#  name               :string(255)
+#  description        :string(255)
+#  chef_env           :string(255)
+#  service            :string(255)
+#  subservice         :string(255)
+#  contents           :text
+#  created_at         :datetime
+#  updated_at         :datetime
+#  lock_version       :integer          default(0), not null
+#  state              :string(255)
+#  instance_type      :string(255)
+#  launch_time        :datetime
+#  availability_zone  :string(255)
+#  subnet_id          :string(255)
+#  private_ip_address :string(255)
 #
 # Indexes
 #
@@ -28,7 +34,9 @@ class Instance < ActiveRecord::Base
 
   serialize :contents, JSON
 
-  attr_accessible :instance_id, :name, :description, :chef_env, :service, :subservice, :contents
+  attr_accessible :instance_id, :name, :description, :chef_env, :service, :subservice, :contents,
+                  :state, :instance_type, :launch_time, :availability_zone, :subnet_id, 
+                  :private_ip_address
 
 
   def self.refresh_all
@@ -50,16 +58,26 @@ class Instance < ActiveRecord::Base
     chef_env = tags['ChefEnv']
     service = tags['Service']
     subservice = tags['Subservice']
+    state = contents['state']['name']
+    instance_type = contents['instance_type']
+    launch_time = contents['launch_time'].utc if contents['launch_time']
+    availability_zone = contents['placement']['availability_zone']
+    subnet_id = contents['subnet_id']
+    private_ip_address = contents['private_ip_address']
     i = find_by_instance_id(instance_id)
     if !i
       create! instance_id: instance_id, name: name, description: "",
               chef_env: chef_env, service: service, subservice: subservice,
-              contents: contents
+              contents: contents, state: state, instance_type: instance_type,
+              launch_time: launch_time, availability_zone: availability_zone,
+              subnet_id: subnet_id, private_ip_address: private_ip_address
     else
       if contents.to_json != i.contents.to_json
         i.update_attributes name: name, description: "",
               chef_env: chef_env, service: service, subservice: subservice,
-              contents: contents
+              contents: contents, state: state, instance_type: instance_type,
+              launch_time: launch_time, availability_zone: availability_zone,
+              subnet_id: subnet_id, private_ip_address: private_ip_address
       end 
     end
   end

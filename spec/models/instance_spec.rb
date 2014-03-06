@@ -2,17 +2,23 @@
 #
 # Table name: instances
 #
-#  id           :integer          not null, primary key
-#  instance_id  :string(255)
-#  name         :string(255)
-#  description  :string(255)
-#  chef_env     :string(255)
-#  service      :string(255)
-#  subservice   :string(255)
-#  contents     :text
-#  created_at   :datetime
-#  updated_at   :datetime
-#  lock_version :integer          default(0), not null
+#  id                 :integer          not null, primary key
+#  instance_id        :string(255)
+#  name               :string(255)
+#  description        :string(255)
+#  chef_env           :string(255)
+#  service            :string(255)
+#  subservice         :string(255)
+#  contents           :text
+#  created_at         :datetime
+#  updated_at         :datetime
+#  lock_version       :integer          default(0), not null
+#  state              :string(255)
+#  instance_type      :string(255)
+#  launch_time        :datetime
+#  availability_zone  :string(255)
+#  subnet_id          :string(255)
+#  private_ip_address :string(255)
 #
 # Indexes
 #
@@ -70,6 +76,29 @@ describe Instance do
       i.contents.should == {"foo"=>2, "bar"=>"quux"}
     end
   
+    it "should have a state field" do
+      create(:instance).state.should be_a String
+    end
+      
+    it "should have an instance type field" do
+      create(:instance).instance_type.should be_a String
+    end
+      
+    it "should have an launch time field" do
+      create(:instance).launch_time.should be_a Time
+    end
+      
+    it "should have an availability zone field" do
+      create(:instance).availability_zone.should be_a String
+    end
+      
+    it "should have subnet_id field" do
+      create(:instance).subnet_id.should be_a String
+    end
+      
+    it "should have private_ip_address field" do
+      create(:instance).private_ip_address.should be_a String
+    end
   end
 
 
@@ -148,26 +177,29 @@ describe Instance do
 
     it "should try to receive the instance from its id" do
       Instance.should_receive(:find_by_instance_id)
-      Instance.refresh_from_struct({'tags' => {}})
+      Instance.refresh_from_struct({'tags' => {}, 'state' => {}, 'placement' => {}})
     end
 
     it "should create an instance if not found" do
       Instance.should_receive(:create!)
-      Instance.refresh_from_struct({'instance_id' => 'UNKNOWN', 'tags' => {}})
+      Instance.refresh_from_struct({'instance_id' => 'UNKNOWN', 'tags' => {}, 'state' => {}, 'placement' => {}})
     end
 
     it "should update an instance if it already exists and is different" do
       create(:instance, instance_id: "i-12345678", contents: {})
       Instance.should_not_receive(:create!)
       Instance.any_instance.should_receive(:update_attributes)
-      Instance.refresh_from_struct({'instance_id' => 'i-12345678', 'tags' => {}, 'contents' => 'another'})
+      Instance.refresh_from_struct({'instance_id' => 'i-12345678', 'tags' => {}, 
+                                    'state' => {}, 'placement' => {}})
     end
 
     it "should not update an instance if it already exists but is unchanged" do
-      create(:instance, instance_id: "i-99999999", contents: {'instance_id' => 'i-99999999', 'tags' => {}, 'contents' => {'tags' => {}}})
+      create(:instance, instance_id: "i-99999999", contents: {'instance_id' => 'i-99999999', 'tags' => {}, 
+                                                              'state' => {}, 'placement' => {}})
       Instance.should_not_receive(:create!)
       Instance.any_instance.should_not_receive(:update_attributes)
-      Instance.refresh_from_struct({'instance_id' => 'i-99999999', 'tags' => {}, 'contents' => {'tags' => {}}})
+      Instance.refresh_from_struct({'instance_id' => 'i-99999999', 'tags' => {}, 
+                                    'state' => {}, 'placement' => {}})
     end
 
   end
