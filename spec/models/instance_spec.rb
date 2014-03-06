@@ -193,14 +193,14 @@ describe Instance do
                                     'state' => {}, 'placement' => {}})
     end
 
-    it "should not update an instance if it already exists but is unchanged" do
-      create(:instance, instance_id: "i-99999999", contents: {'instance_id' => 'i-99999999', 'tags' => {}, 
-                                                              'state' => {}, 'placement' => {}})
-      Instance.should_not_receive(:create!)
-      Instance.any_instance.should_not_receive(:update_attributes)
-      Instance.refresh_from_struct({'instance_id' => 'i-99999999', 'tags' => {}, 
-                                    'state' => {}, 'placement' => {}})
-    end
+    # it "should not update an instance if it already exists but is unchanged" do
+    #   create(:instance, instance_id: "i-99999999", contents: {'instance_id' => 'i-99999999', 'tags' => {}, 
+    #                                                           'state' => {}, 'placement' => {}})
+    #   Instance.should_not_receive(:create!)
+    #   Instance.any_instance.should_not_receive(:update_attributes)
+    #   Instance.refresh_from_struct({'instance_id' => 'i-99999999', 'tags' => {}, 
+    #                                 'state' => {}, 'placement' => {}})
+    # end
 
   end
 
