@@ -51,8 +51,8 @@ describe "instances/_instance" do
       @u['subservice'].should be_a String
     end
         
-    it "should have a contents field" do
-      @u['contents'].should_not == nil
+    it "should not have a contents field" do
+      @u['contents'].should == nil
     end
         
     it "should have a state field" do
