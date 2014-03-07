@@ -27,5 +27,21 @@ describe InstancesController do
       put("/instances/refresh").should route_to("instances#refresh")
     end
 
+    it "should route to #start" do
+      put("/v1/instances/i-12345678/start").should route_to("instances#start", id: "i-12345678")
+    end
+
+    it "should route to #stop" do
+      put("/v1/instances/i-12345678/stop").should route_to("instances#stop", id: "i-12345678")
+    end
+
+    it "should route to #reboot" do
+      put("/v1/instances/i-12345678/reboot").should route_to("instances#reboot", id: "i-12345678")
+    end
+
+    it "should route to #terminate" do
+      delete("/v1/instances/i-12345678/terminate").should route_to("instances#terminate", id: "i-12345678")
+    end
+
   end
 end

@@ -33,6 +33,11 @@ class InstancesController < ApplicationController
     Instance.refresh_all
     render text: ""
   end
+
+
+  # def start
+
+  # end
   
   
   private

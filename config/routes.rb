@@ -7,7 +7,14 @@ Metrics::Application.routes.draw do
 
   scope "v1" do
     
-    resources :instances, only: [:index, :show], constraints: {id: /.+/}
+    resources :instances, only: [:index, :show], constraints: {id: /.+/} do
+      member do
+        put    "start"
+        put    "stop"
+        put    "reboot"
+        delete "terminate"
+      end
+    end
 
   end
 
