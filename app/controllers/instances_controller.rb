@@ -1,13 +1,17 @@
 class InstancesController < ApplicationController
 
-  ocean_resource_controller #required_attributes: [:lock_version, :name, :description]
+  ocean_resource_controller extra_actions: { 'start'      => ['start', "PUT"],
+                                             'stop'       => ['stop', "PUT"],  
+                                             'reboot'     => ['reboot', "PUT"],  
+                                             'terminate'  => ['terminate', "DELETE"]  
+                                           }
 
   respond_to :json
 
   skip_before_filter :require_x_api_token, only: :refresh
   skip_before_filter :authorize_action, only: :refresh
 
-  before_filter :find_instance, only: :show
+  before_filter :find_instance, except: [:index, :refresh]
 
 
   # GET /instances
@@ -35,9 +39,28 @@ class InstancesController < ApplicationController
   end
 
 
-  # def start
-
-  # end
+  def start
+    @instance.start("Started by the Ocean Metrics service")
+    render text: ""
+  end
+  
+  
+  def stop
+    @instance.stop
+    render text: ""
+  end
+  
+  
+  def reboot
+    @instance.reboot
+    render text: ""
+  end
+  
+  
+  def terminate
+    @instance.terminate
+    render text: ""
+  end
   
   
   private

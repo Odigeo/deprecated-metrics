@@ -201,7 +201,51 @@ describe Instance do
       Instance.refresh_from_struct({'instance_id' => 'i-99999999', 'tags' => {}, 
                                     'state' => {}, 'placement' => {}})
     end
+  end
 
+
+  describe "start" do
+    it "should take an optional string argument" do
+      $ec2.should_receive(:start_instances).twice
+      @i = create :instance
+      @i.start("This is the reason for starting")
+      Instance.delete_all
+      @i = create :instance
+      @i.start
+    end
+
+    it "should call Amazon" do
+      @i = create :instance
+      $ec2.should_receive(:start_instances).with(instance_ids: [@i.instance_id])
+      @i.start
+    end
+  end
+
+
+  describe "stop" do
+    it "should call Amazon" do
+      @i = create :instance
+      $ec2.should_receive(:stop_instances).with(instance_ids: [@i.instance_id])
+      @i.stop
+    end
+  end
+
+
+  describe "reboot" do
+    it "should call Amazon" do
+      @i = create :instance
+      $ec2.should_receive(:reboot_instances).with(instance_ids: [@i.instance_id])
+      @i.reboot
+    end
+  end
+
+
+  describe "terminate" do
+    it "should call Amazon" do
+      @i = create :instance
+      $ec2.should_receive(:terminate_instances).with(instance_ids: [@i.instance_id])
+      @i.terminate
+    end
   end
 
 end
