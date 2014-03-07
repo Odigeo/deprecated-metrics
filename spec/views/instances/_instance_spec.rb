@@ -98,11 +98,11 @@ describe "instances/_instance" do
       @links['self']['href'].split('/')[-1].should match /i-[0-9]+/
     end
 
-    it "should have a terminate hyperlink if stopped" do
+    it "should have a terminate hyperlink" do
       @links.should be_hyperlinked('terminate', /instances/)
     end
 
-    it "should have a start hyperlink if stopped" do
+    it "should have a start hyperlink" do
       @links.should be_hyperlinked('start', /instances/)
     end
   end
@@ -125,11 +125,11 @@ describe "instances/_instance" do
       @links['self']['href'].split('/')[-1].should match /i-[0-9]+/
     end
 
-    it "should have a stop hyperlink if running" do
+    it "should have a stop hyperlink" do
       @links.should be_hyperlinked('stop', /instances/)
     end
 
-    it "should have a reboot hyperlink if running" do
+    it "should have a reboot hyperlink" do
       @links.should be_hyperlinked('reboot', /instances/)
     end
   end
