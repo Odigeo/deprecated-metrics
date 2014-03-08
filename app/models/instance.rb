@@ -102,7 +102,6 @@ class Instance < ActiveRecord::Base
 
   def terminate
     $ec2.terminate_instances(instance_ids: [instance_id])
-
   end
 
 
