@@ -160,17 +160,19 @@ describe Instance do
   end
 
 
-  # describe "refresh_all" do
+  describe "refresh_all" do
 
-  #   it "should be available as a class method" do
-  #     Instance.should respond_to(:refresh_all)
-  #   end
+    it "should be available as a class method" do
+      Instance.should respond_to(:refresh_all)
+    end
 
-  #   it "should call refresh_from_struct repeatedly" do
-  #     Instance.should_receive(:refresh_from_struct).at_least(1).times
-  #     Instance.refresh_all
-  #   end
-  # end
+    it "should call refresh_from_struct repeatedly" do
+      $ec2.should_receive(:describe_instances).
+        and_return(double('ec2_reply', reservations: [double('reservation', instances: [:foo])]))
+      Instance.should_receive(:refresh_from_struct).at_least(1).times
+      Instance.refresh_all
+    end
+  end
 
 
   describe "refresh_from_struct" do
