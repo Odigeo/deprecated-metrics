@@ -41,11 +41,14 @@ class Instance < ActiveRecord::Base
 
   def self.refresh_all
     response = $ec2.describe_instances  # (filters: [{name: "tag:ChefEnv", values: [CHEF_ENV]}])
+    iids = []
     response.reservations.each do |reservation|
       reservation.instances.each do |instance|
-        refresh_from_struct instance
+        refresh_from_struct(instance)
+        iids << instance.instance_id
       end
     end
+    Instance.where.not(instance_id: iids).destroy_all   # Must be destroy as we want to uncache removed instances.
     true
   end
 

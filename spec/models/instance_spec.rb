@@ -168,9 +168,29 @@ describe Instance do
 
     it "should call refresh_from_struct repeatedly" do
       $ec2.should_receive(:describe_instances).
-        and_return(double('ec2_reply', reservations: [double('reservation', instances: [:foo])]))
-      Instance.should_receive(:refresh_from_struct).at_least(1).times
+        and_return(double('ec2_reply', reservations: [double('reservation', instances: [double('i', instance_id: "i-12345678")])]))
+      Instance.should_receive(:refresh_from_struct).once
       Instance.refresh_all
+    end
+
+    it "should destroy instances not in the result set" do
+      i1 = create :instance, instance_id: "i-11111111"
+      i2 = create :instance, instance_id: "i-22222222"
+      i3 = create :instance, instance_id: "i-33333333"
+      i4 = create :instance, instance_id: "i-44444444"
+      Instance.count.should == 4
+      $ec2.should_receive(:describe_instances).
+        and_return(double('ec2_reply', 
+          reservations: [double('reservation-1', instances: [double('i3', instance_id: "i-33333333")]),
+                         double('reservation-2', instances: [double('i1', instance_id: "i-11111111")])
+                        ]))
+      Instance.should_receive(:refresh_from_struct).twice
+      Instance.refresh_all
+      Instance.count.should == 2
+      Instance.find_by_instance_id("i-11111111").should == i1
+      Instance.find_by_instance_id("i-22222222").should == nil
+      Instance.find_by_instance_id("i-33333333").should == i3
+      Instance.find_by_instance_id("i-44444444").should == nil
     end
   end
 
