@@ -32,7 +32,7 @@ class Instance < ActiveRecord::Base
   ocean_resource_model index: [:instance_id, :name, :chef_env, :service], 
                        search: false
 
-  serialize :contents, JSON
+  serialize :contents, Oj
 
   attr_accessible :instance_id, :name, :description, :chef_env, :service, :subservice, :contents,
                   :state, :instance_type, :launch_time, :availability_zone, :subnet_id, 

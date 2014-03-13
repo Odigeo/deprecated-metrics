@@ -67,10 +67,10 @@ describe Instance do
     end
 
     it "should be able to serialize and persist the contents hash" do
-      i = create(:instance, contents: {foo: 2, 'bar' => [1,2,3]})
+      i = create(:instance, contents: {"foo" => 2, 'bar' => [1,2,3]})
       i = Instance.find(i)
       i.contents.should == {"foo"=>2, "bar"=>[1, 2, 3]}
-      i.contents['bar'] = :quux
+      i.contents['bar'] = "quux"
       i.save!
       i = Instance.find(i)
       i.contents.should == {"foo"=>2, "bar"=>"quux"}

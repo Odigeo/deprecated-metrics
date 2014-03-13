@@ -8,6 +8,8 @@ gem "pg"                 # PostgreSQL
 gem "foreigner"          # Foreign key constraints in MySQL, PostgreSQL, and SQLite3.
 
 gem "jbuilder"
+gem 'rails-patch-json-encode'  # Required for Rails 4.0.x
+gem 'oj'
 
 gem "aws-sdk-core" #, "~> 2.0"
 
