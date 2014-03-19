@@ -30,7 +30,7 @@ GEM
       rake (>= 0.8.7)
     arel (4.0.2)
     atomic (1.1.16)
-    aws-sdk (1.36.1)
+    aws-sdk (1.36.2)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
