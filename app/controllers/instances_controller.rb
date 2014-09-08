@@ -3,13 +3,11 @@ class InstancesController < ApplicationController
   ocean_resource_controller extra_actions: { 'start'      => ['start', "PUT"],
                                              'stop'       => ['stop', "PUT"],  
                                              'reboot'     => ['reboot', "PUT"],  
-                                             'terminate'  => ['terminate', "DELETE"]  
+                                             'terminate'  => ['terminate', "DELETE"],  
+                                             'refresh'    => ['refresh', "PUT"]  
                                            }
 
   respond_to :json
-
-  skip_before_filter :require_x_api_token, only: :refresh
-  skip_before_filter :authorize_action, only: :refresh
 
   before_filter :find_instance, except: [:index, :refresh]
 
