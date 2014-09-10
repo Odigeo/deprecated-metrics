@@ -18,7 +18,13 @@ class DynamoTable
 
   def self.delete_table(table_name)
     Rails.logger.info "Deleting DynamoDB table #{table_name}"
-  	$dynamo.delete_table(table_name: table_name)
+    begin
+  	  $dynamo.delete_table(table_name: table_name)
+    rescue Aws::DynamoDB::Errors::LimitExceededException
+      Rails.logger.debug "AWS deletion failed due to deletion limit reached, waiting and retrying..."
+      sleep 10
+      retry
+    end
   end
 
 end

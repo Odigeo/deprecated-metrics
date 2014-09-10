@@ -79,6 +79,15 @@ describe DynamoTable do
   	  DynamoTable.delete_table("godzilla")
   	end
 
+    it "should wait and retry if an Aws::DynamoDB::Errors::LimitExceededException is thrown" do
+      expect($dynamo).to receive(:delete_table).with({table_name: "godzilla"}).
+        and_raise(Aws::DynamoDB::Errors::LimitExceededException.new("foo", "bar"))
+      expect($dynamo).to receive(:delete_table).with({table_name: "godzilla"})
+      expect(Rails.logger).to receive(:debug).with("AWS deletion failed due to deletion limit reached, waiting and retrying...")
+      expect(Object).to receive(:sleep).with(10)
+      DynamoTable.delete_table("godzilla")
+    end
+
   end
 
 end
