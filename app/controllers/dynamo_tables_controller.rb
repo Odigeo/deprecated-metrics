@@ -1,6 +1,6 @@
 class DynamoTablesController < ApplicationController
 
-  ocean_resource_controller extra_actions: { 'delete_test_tables' => ['delete_test_tables', "PUT"]  
+  ocean_resource_controller extra_actions: { 'delete_test_tables' => ['delete_test_tables', "DELETE"]  
                                            }
 
   respond_to :json
@@ -41,7 +41,7 @@ class DynamoTablesController < ApplicationController
   # end
 
 
-  # PUT /dynamo_tables/delete_test_tables
+  # DELETE /dynamo_tables/test_tables
   def delete_test_tables
     DynamoTable.delete_test_tables(CHEF_ENV)
     render_head_204

@@ -24,7 +24,7 @@ describe DynamoTablesController do
     end
 
     it "routes to #delete_test_tables" do
-      put("/v1/dynamo_tables/delete_test_tables").should route_to("dynamo_tables#delete_test_tables")
+      delete("/v1/dynamo_tables/test_tables").should route_to("dynamo_tables#delete_test_tables")
     end
   end
 end

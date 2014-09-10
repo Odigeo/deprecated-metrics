@@ -17,6 +17,7 @@ class DynamoTable
   end
 
   def self.delete_table(table_name)
+    Rails.logger.info "Deleting DynamoDB table #{table_name}"
   	$dynamo.delete_table(table_name: table_name)
   end
 
