@@ -1,6 +1,6 @@
 class DynamoTablesController < ApplicationController
 
-  ocean_resource_controller extra_actions: { 'delete_test_tables' => ['delete_test_tables', "DELETE"]  
+  ocean_resource_controller extra_actions: { 'delete_test_tables' => ['test_tables', "DELETE"]  
                                            }
 
   respond_to :json
