@@ -90,21 +90,25 @@ class Instance < ActiveRecord::Base
     args = {instance_ids: [instance_id]}
     args[:additional_info] = additional_info unless additional_info.blank?
     $ec2.start_instances(args)
+    touch
   end
 
 
   def stop
     $ec2.stop_instances(instance_ids: [instance_id])
+    touch
   end
 
 
   def reboot
     $ec2.reboot_instances(instance_ids: [instance_id])
+    touch
   end
 
 
   def terminate
     $ec2.terminate_instances(instance_ids: [instance_id])
+    touch
   end
 
 
