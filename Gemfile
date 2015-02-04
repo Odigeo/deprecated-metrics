@@ -6,8 +6,9 @@ gem "ocean-rails"
 gem "pg"                 # PostgreSQL
 gem "foreigner"          # Foreign key constraints in MySQL, PostgreSQL, and SQLite3.
 
+gem 'oj'
+gem 'oj_mimic_json'
 gem "jbuilder"
-gem "oj"
 
 gem "aws-sdk-core" #, "~> 2.0"
 
