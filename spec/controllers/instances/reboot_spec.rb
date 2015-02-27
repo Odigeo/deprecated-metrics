@@ -13,22 +13,22 @@ describe InstancesController do
     end
 
     it "should return a 404 when the user can't be found" do
-      @instance.should_not_receive(:reboot)
+      expect(@instance).not_to receive(:reboot)
       put :reboot, id: -1
-      response.status.should == 404
-      response.content_type.should == "application/json"
+      expect(response.status).to eq(404)
+      expect(response.content_type).to eq("application/json")
     end
 
     it "should return a 200" do
-      Instance.any_instance.should_receive(:reboot)
+      expect_any_instance_of(Instance).to receive(:reboot)
       put :reboot, id: @instance.instance_id
-      response.status.should == 200
+      expect(response.status).to eq(200)
     end
     
     it "should not return a body" do
-      Instance.any_instance.should_receive(:reboot)
+      expect_any_instance_of(Instance).to receive(:reboot)
       put :reboot, id: @instance.instance_id
-      response.body.should == ""
+      expect(response.body).to eq("")
     end
     
   end

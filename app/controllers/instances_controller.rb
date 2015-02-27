@@ -7,8 +7,6 @@ class InstancesController < ApplicationController
                                              'refresh'    => ['refresh', "PUT"]  
                                            }
 
-  respond_to :json
-
   before_filter :find_instance, except: [:index, :refresh]
 
 

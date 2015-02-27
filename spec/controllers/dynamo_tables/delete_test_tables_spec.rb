@@ -13,23 +13,23 @@ describe DynamoTablesController do
 
 
     it "should return JSON" do
-      DynamoTable.should_receive(:delete_test_tables)
+      expect(DynamoTable).to receive(:delete_test_tables)
       delete :delete_test_tables
-      response.content_type.should == "application/json"
+      expect(response.content_type).to eq("application/json")
     end
     
     it "should return a 400 if the X-API-Token header is missing" do
       request.headers['X-API-Token'] = nil
-      DynamoTable.should_not_receive(:delete_test_tables)
+      expect(DynamoTable).not_to receive(:delete_test_tables)
       delete :delete_test_tables
-      response.status.should == 400
-      response.content_type.should == "application/json"
+      expect(response.status).to eq(400)
+      expect(response.content_type).to eq("application/json")
     end
     
     it "should return a 204 when successful" do
-      DynamoTable.should_receive(:delete_test_tables)
+      expect(DynamoTable).to receive(:delete_test_tables)
       delete :delete_test_tables
-      response.status.should == 204
+      expect(response.status).to eq(204)
     end
     
   end

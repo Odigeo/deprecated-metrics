@@ -3,8 +3,6 @@ class DynamoTablesController < ApplicationController
   ocean_resource_controller extra_actions: { 'delete_test_tables' => ['test_tables', "DELETE"]  
                                            }
 
-  respond_to :json
-
   before_filter :find_dynamo_table, except: [:index, :delete_test_tables]
 
 
